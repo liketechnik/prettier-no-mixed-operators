@@ -379,14 +379,18 @@ function needsParens(path, options) {
             return true;
           }
 
-          if (parentPrecedence < precedence && operator === "%") {
-            return parentOperator === "+" || parentOperator === "-";
-          }
+          // if (parentPrecedence < precedence && (operator === "%" || isMathOperator(parentOperator))) {
+          //   return parentOperator === "+" || parentOperator === "-";
+          // }
 
           // Add parenthesis when working with bitwise operators
           // It's not strictly needed but helps with code understanding
           if (isBitwiseOperator(parentOperator)) {
             return true;
+          }
+
+          if (parentPrecedence < precedence) {
+            return isBitwiseOperator(parentOperator) || parentOperator === "+" || parentOperator === "-";
           }
 
           return false;
